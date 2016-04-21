@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <label>请输入北京今天空气质量：<input id="aqi-input" type="text"></label>
+  <button id="button">确认填写</button>
+
+  <div>您输入的值是：<span id="aqi-display">尚无录入</span></div>
+
+<script type="text/javascript">
+
+(function() {
+  /*	
+  在注释下方写下代码
+  给按钮button绑定一个点击事件
+  在事件处理函数中
+  获取aqi-input输入的值，并显示在aqi-display中
+  */
+
+  // 获取按钮
+  var btn = document.getElementById('button');
+  // 绑定点击事件
+  btn.addEventListener('click', function () {
+
+    var display = document.getElementById('aqi-display');
+
+    //获取输入数据 
+    var inputValue = document.getElementById('aqi-input').value;
+
+    //判断数据是否符合要求
+    function dataJudge(inputValue) {
+      //当click后将录入数据重置；
+      display.innerText = "尚无录入";
+      //未输入时不做录入；
+      if ( inputValue == "" ) {
+        return false;
+      };
+
+      //当输入数据不是数字或者不符合范围
+      if ( !(inputValue >= 0 && inputValue <= 500) ) {
+
+        var inputNum = parseInt(inputValue);
+        //输入是数字但不符合范围
+        if ( inputNum == inputValue ) {
+          alert("您输入的数值不符合范围，请输入0~500的数据...");
+        }
+
+        //输入不全是数字
+        else{
+          //parseInt不能提取到数字
+          if ( isNaN(inputNum) ){
+            alert("空气质量应该是数字哟~");
+          }
+          //parseInt提取到数字询问用户是否输入
+          else{
+            var userSet =  confirm("您输入的数据不符合规范，系统猜测您想要的数据为:\n" + inputNum + "\n是否录入该数据？");
+            //同意输入后重新调用函数，防止提取数值不符合范围
+            if (userSet) {
+              dataJudge(inputNum);
+            };
+          };
+        };
+        return false;
+      }
+      //符合输入规范，直接输入
+      else{
+        display.innerText = inputValue;
+      };
+    };
+    //调用函数
+    dataJudge(inputValue);
+
+  });
+
+})();
+
+</script>
+</body>
+</html>
